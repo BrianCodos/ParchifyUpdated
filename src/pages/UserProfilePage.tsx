@@ -127,19 +127,19 @@ const UserProfilePage: React.FC = () => {
 
   return (
     <div className="user-profile-page">
-      <div className="user-profile-page-container glass-effect">
+      <div className="profile-container glass-effect">
         <div className="profile-header">
-          <h1>Perfil de Usuario</h1>
+          <h1 className="heading-page">Perfil de Usuario</h1>
           {!isEditing ? (
-            <button className="profile-edit-button" onClick={handleStartEdit}>
+            <button className="button button-primary" onClick={handleStartEdit}>
               <i className="fas fa-edit"></i> Editar Perfil
             </button>
           ) : (
-            <div className="profile-edit-actions">
-              <button className="profile-cancel-button" onClick={handleCancelEdit}>
+            <div className="d-flex gap-md">
+              <button className="button button-secondary" onClick={handleCancelEdit}>
                 <i className="fas fa-times"></i> Cancelar
               </button>
-              <button className="profile-save-button" onClick={handleSaveProfile}>
+              <button className="button button-primary" onClick={handleSaveProfile}>
                 <i className="fas fa-save"></i> Guardar
               </button>
             </div>
@@ -155,7 +155,7 @@ const UserProfilePage: React.FC = () => {
               </div>
               {isEditing && (
                 <div className="profile-photo-upload">
-                  <label htmlFor="profile-photo-input" className="profile-photo-upload-label">
+                  <label htmlFor="profile-photo-input" className="button button-secondary">
                     <i className="fas fa-camera"></i> Cambiar foto
                   </label>
                   <input 
@@ -163,7 +163,7 @@ const UserProfilePage: React.FC = () => {
                     id="profile-photo-input" 
                     accept="image/*" 
                     onChange={handleProfilePhotoUpload} 
-                    className="profile-photo-input"
+                    className="profile-photo-input hidden"
                   />
                 </div>
               )}
@@ -172,8 +172,8 @@ const UserProfilePage: React.FC = () => {
             {/* Información básica */}
             <div className="profile-info-section">
               <div className="profile-field-group">
-                <div className="profile-field">
-                  <label>Nombre</label>
+                <div className="form-group">
+                  <label className="form-label">Nombre</label>
                   {isEditing ? (
                     <input 
                       type="text" 
@@ -181,14 +181,15 @@ const UserProfilePage: React.FC = () => {
                       value={tempProfile.nombre} 
                       onChange={handleInputChange} 
                       placeholder="Tu nombre"
+                      className="form-control"
                     />
                   ) : (
-                    <p>{profile.nombre || 'No especificado'}</p>
+                    <p className="text-body">{profile.nombre || 'No especificado'}</p>
                   )}
                 </div>
 
-                <div className="profile-field">
-                  <label>Apellidos</label>
+                <div className="form-group">
+                  <label className="form-label">Apellidos</label>
                   {isEditing ? (
                     <input 
                       type="text" 
@@ -196,32 +197,39 @@ const UserProfilePage: React.FC = () => {
                       value={tempProfile.apellidos} 
                       onChange={handleInputChange} 
                       placeholder="Tus apellidos"
+                      className="form-control"
                     />
                   ) : (
-                    <p>{profile.apellidos || 'No especificado'}</p>
+                    <p className="text-body">{profile.apellidos || 'No especificado'}</p>
                   )}
                 </div>
               </div>
 
               <div className="profile-field-group">
-                <div className="profile-field">
-                  <label>Fecha de Nacimiento</label>
+                <div className="form-group">
+                  <label className="form-label">Fecha de Nacimiento</label>
                   {isEditing ? (
                     <input 
                       type="date" 
                       name="fechaNacimiento" 
                       value={tempProfile.fechaNacimiento} 
                       onChange={handleInputChange}
+                      className="form-control"
                     />
                   ) : (
-                    <p>{profile.fechaNacimiento || 'No especificado'}</p>
+                    <p className="text-body">{profile.fechaNacimiento || 'No especificado'}</p>
                   )}
                 </div>
 
-                <div className="profile-field">
-                  <label>Género</label>
+                <div className="form-group">
+                  <label className="form-label">Género</label>
                   {isEditing ? (
-                    <select name="genero" value={tempProfile.genero} onChange={handleInputChange}>
+                    <select 
+                      name="genero" 
+                      value={tempProfile.genero} 
+                      onChange={handleInputChange}
+                      className="form-control"
+                    >
                       <option value="">Selecciona...</option>
                       <option value="Masculino">Masculino</option>
                       <option value="Femenino">Femenino</option>
@@ -229,13 +237,13 @@ const UserProfilePage: React.FC = () => {
                       <option value="Prefiero no decir">Prefiero no decir</option>
                     </select>
                   ) : (
-                    <p>{profile.genero || 'No especificado'}</p>
+                    <p className="text-body">{profile.genero || 'No especificado'}</p>
                   )}
                 </div>
               </div>
 
-              <div className="profile-field">
-                <label>Ciudad</label>
+              <div className="form-group">
+                <label className="form-label">Ciudad</label>
                 {isEditing ? (
                   <input 
                     type="text" 
@@ -243,147 +251,156 @@ const UserProfilePage: React.FC = () => {
                     value={tempProfile.ciudad} 
                     onChange={handleInputChange} 
                     placeholder="Tu ciudad"
+                    className="form-control"
                   />
                 ) : (
-                  <p>{profile.ciudad || 'No especificado'}</p>
+                  <p className="text-body">{profile.ciudad || 'No especificado'}</p>
                 )}
               </div>
             </div>
           </div>
 
           {/* Sección "Acerca de mí" */}
-          <div className="profile-about-section">
-            <h2>Acerca de mí</h2>
-            {isEditing ? (
-              <textarea 
-                name="acercaDeMi" 
-                value={tempProfile.acercaDeMi} 
-                onChange={handleInputChange} 
-                placeholder="Cuéntanos sobre ti..."
-              ></textarea>
-            ) : (
-              <div className="profile-about-text">
-                {profile.acercaDeMi || 'No hay información disponible.'}
-              </div>
-            )}
+          <div className="panel">
+            <div className="panel-header">
+              <h2 className="panel-title">Acerca de mí</h2>
+            </div>
+            <div className="panel-body">
+              {isEditing ? (
+                <textarea 
+                  name="acercaDeMi" 
+                  value={tempProfile.acercaDeMi} 
+                  onChange={handleInputChange} 
+                  placeholder="Cuéntanos sobre ti..."
+                  className="form-control"
+                ></textarea>
+              ) : (
+                <div className="profile-about-text">
+                  {profile.acercaDeMi || 'No hay información disponible.'}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Sección "Mis gustos" */}
-          <div className="profile-preferences-section">
-            <h2>Mis gustos</h2>
-            
-            <div className="profile-preference-category">
-              <h3>Tipos de planes</h3>
-              <div className="profile-tags-container">
-                {(isEditing ? tempProfile : profile).gustos.tiposPlanes.map((plan, index) => (
-                  <div key={index} className="profile-tag">
-                    <span>{plan}</span>
-                    {isEditing && (
-                      <button onClick={() => handleRemoveItem('tiposPlanes', plan)} className="profile-tag-remove">
-                        <i className="fas fa-times"></i>
-                      </button>
-                    )}
-                  </div>
-                ))}
-                
-                {isEditing && (
-                  <div className="profile-tag-add">
-                    <select 
-                      value={newPlanType} 
-                      onChange={(e) => setNewPlanType(e.target.value)}
-                      className="profile-tag-select"
-                    >
-                      <option value="">Seleccionar...</option>
-                      {opcionesTiposPlanes.filter(
-                        option => !tempProfile.gustos.tiposPlanes.includes(option)
-                      ).map((option, index) => (
-                        <option key={index} value={option}>{option}</option>
-                      ))}
-                    </select>
-                    <button 
-                      onClick={() => handleAddItem('tiposPlanes', newPlanType)}
-                      disabled={!newPlanType}
-                      className="profile-tag-add-button"
-                    >
-                      <i className="fas fa-plus"></i> Añadir
-                    </button>
-                  </div>
-                )}
-              </div>
+          <div className="panel">
+            <div className="panel-header">
+              <h2 className="panel-title">Mis gustos</h2>
             </div>
-            
-            <div className="profile-preference-category">
-              <h3>Géneros musicales</h3>
-              <div className="profile-tags-container">
-                {(isEditing ? tempProfile : profile).gustos.generosMusicales.map((genero, index) => (
-                  <div key={index} className="profile-tag">
-                    <span>{genero}</span>
-                    {isEditing && (
-                      <button onClick={() => handleRemoveItem('generosMusicales', genero)} className="profile-tag-remove">
-                        <i className="fas fa-times"></i>
+            <div className="panel-body">
+              <div className="profile-preference-category mb-xl">
+                <h3 className="heading-category">Tipos de planes</h3>
+                <div className="profile-tags-container">
+                  {(isEditing ? tempProfile : profile).gustos.tiposPlanes.map((plan, index) => (
+                    <div key={index} className="tag">
+                      <span>{plan}</span>
+                      {isEditing && (
+                        <button onClick={() => handleRemoveItem('tiposPlanes', plan)} className="tag-remove">
+                          <i className="fas fa-times"></i>
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {isEditing && (
+                    <div className="profile-tag-add">
+                      <select 
+                        value={newPlanType} 
+                        onChange={(e) => setNewPlanType(e.target.value)}
+                        className="form-control"
+                      >
+                        <option value="">Seleccionar...</option>
+                        {opcionesTiposPlanes.filter(
+                          option => !tempProfile.gustos.tiposPlanes.includes(option)
+                        ).map((option, index) => (
+                          <option key={index} value={option}>{option}</option>
+                        ))}
+                      </select>
+                      <button 
+                        onClick={() => handleAddItem('tiposPlanes', newPlanType)}
+                        disabled={!newPlanType}
+                        className="button button-primary button-sm"
+                      >
+                        <i className="fas fa-plus"></i> Añadir
                       </button>
-                    )}
-                  </div>
-                ))}
-                
-                {isEditing && (
-                  <div className="profile-tag-add">
-                    <select 
-                      value={newMusicGenre} 
-                      onChange={(e) => setNewMusicGenre(e.target.value)}
-                      className="profile-tag-select"
-                    >
-                      <option value="">Seleccionar...</option>
-                      {opcionesGenerosMusicales.filter(
-                        option => !tempProfile.gustos.generosMusicales.includes(option)
-                      ).map((option, index) => (
-                        <option key={index} value={option}>{option}</option>
-                      ))}
-                    </select>
-                    <button 
-                      onClick={() => handleAddItem('generosMusicales', newMusicGenre)}
-                      disabled={!newMusicGenre}
-                      className="profile-tag-add-button"
-                    >
-                      <i className="fas fa-plus"></i> Añadir
-                    </button>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            
-            <div className="profile-preference-category">
-              <h3>No me interesa</h3>
-              <div className="profile-tags-container">
-                {(isEditing ? tempProfile : profile).gustos.noMeInteresa.map((item, index) => (
-                  <div key={index} className="profile-tag profile-tag-negative">
-                    <span>{item}</span>
-                    {isEditing && (
-                      <button onClick={() => handleRemoveItem('noMeInteresa', item)} className="profile-tag-remove">
-                        <i className="fas fa-times"></i>
+              
+              <div className="profile-preference-category mb-xl">
+                <h3 className="heading-category">Géneros musicales</h3>
+                <div className="profile-tags-container">
+                  {(isEditing ? tempProfile : profile).gustos.generosMusicales.map((genero, index) => (
+                    <div key={index} className="tag">
+                      <span>{genero}</span>
+                      {isEditing && (
+                        <button onClick={() => handleRemoveItem('generosMusicales', genero)} className="tag-remove">
+                          <i className="fas fa-times"></i>
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {isEditing && (
+                    <div className="profile-tag-add">
+                      <select 
+                        value={newMusicGenre} 
+                        onChange={(e) => setNewMusicGenre(e.target.value)}
+                        className="form-control"
+                      >
+                        <option value="">Seleccionar...</option>
+                        {opcionesGenerosMusicales.filter(
+                          option => !tempProfile.gustos.generosMusicales.includes(option)
+                        ).map((option, index) => (
+                          <option key={index} value={option}>{option}</option>
+                        ))}
+                      </select>
+                      <button 
+                        onClick={() => handleAddItem('generosMusicales', newMusicGenre)}
+                        disabled={!newMusicGenre}
+                        className="button button-primary button-sm"
+                      >
+                        <i className="fas fa-plus"></i> Añadir
                       </button>
-                    )}
-                  </div>
-                ))}
-                
-                {isEditing && (
-                  <div className="profile-tag-add">
-                    <input 
-                      type="text" 
-                      value={newDisinterest} 
-                      onChange={(e) => setNewDisinterest(e.target.value)}
-                      placeholder="Añadir..."
-                      className="profile-tag-input"
-                    />
-                    <button 
-                      onClick={() => handleAddItem('noMeInteresa', newDisinterest)}
-                      disabled={!newDisinterest}
-                      className="profile-tag-add-button"
-                    >
-                      <i className="fas fa-plus"></i> Añadir
-                    </button>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="profile-preference-category">
+                <h3 className="heading-category">No me interesa</h3>
+                <div className="profile-tags-container">
+                  {(isEditing ? tempProfile : profile).gustos.noMeInteresa.map((item, index) => (
+                    <div key={index} className="tag tag-danger">
+                      <span>{item}</span>
+                      {isEditing && (
+                        <button onClick={() => handleRemoveItem('noMeInteresa', item)} className="tag-remove">
+                          <i className="fas fa-times"></i>
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {isEditing && (
+                    <div className="profile-tag-add">
+                      <input 
+                        type="text" 
+                        value={newDisinterest} 
+                        onChange={(e) => setNewDisinterest(e.target.value)}
+                        placeholder="Añadir..."
+                        className="form-control"
+                      />
+                      <button 
+                        onClick={() => handleAddItem('noMeInteresa', newDisinterest)}
+                        disabled={!newDisinterest}
+                        className="button button-primary button-sm"
+                      >
+                        <i className="fas fa-plus"></i> Añadir
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

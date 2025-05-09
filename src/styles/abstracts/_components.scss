@@ -1,0 +1,423 @@
+// Estilos de componentes comunes para mantener una UI consistente
+@import 'variables';
+@import 'mixins';
+
+// Contenedores
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  
+  @include screen-sm {
+    padding: 0 $spacing-lg;
+  }
+  
+  &-fluid {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+    
+    @include screen-sm {
+      padding: 0 $spacing-lg;
+    }
+  }
+  
+  &-narrow {
+    max-width: 800px;
+  }
+}
+
+// Secciones
+.section {
+  margin-bottom: $spacing-2xl;
+  
+  &-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+    
+    &-icon {
+      color: $color-primary-light;
+      font-size: $font-size-lg;
+      margin-right: $spacing-sm;
+    }
+    
+    &-title {
+      font-size: $font-size-title;
+      font-weight: $font-weight-semibold;
+      color: $color-text;
+    }
+    
+    &-actions {
+      margin-left: auto;
+      display: flex;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &-content {
+    margin-bottom: $spacing-xl;
+  }
+  
+  &-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: $spacing-xl;
+  }
+}
+
+// Cards
+.card {
+  background-color: $color-bg-secondary;
+  border-radius: $border-radius-lg;
+  border: 1px solid $color-border;
+  overflow: hidden;
+  transition: transform $transition-normal, box-shadow $transition-normal;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+  
+  &-header {
+    padding: $spacing-md $spacing-lg;
+    border-bottom: 1px solid $color-border;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  &-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text;
+    margin: 0;
+  }
+  
+  &-body {
+    padding: $spacing-lg;
+  }
+  
+  &-footer {
+    padding: $spacing-md $spacing-lg;
+    border-top: 1px solid $color-border;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $spacing-sm;
+  }
+  
+  // Variantes
+  &-glass {
+    @include glass-effect;
+  }
+  
+  &-primary {
+    border-color: $color-primary;
+    
+    .card-header {
+      background-color: rgba($color-primary, 0.1);
+      border-bottom-color: $color-primary;
+    }
+  }
+  
+  &-compact {
+    .card-header, .card-footer {
+      padding: $spacing-sm $spacing-md;
+    }
+    
+    .card-body {
+      padding: $spacing-md;
+    }
+  }
+}
+
+// Botones
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius-md;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-normal;
+  
+  // Variantes de botones
+  &-primary {
+    background: $gradient-primary;
+    color: white;
+    
+    &:hover {
+      background: $gradient-primary-hover;
+    }
+  }
+  
+  &-secondary {
+    background-color: transparent;
+    border: 1px solid $color-border;
+    color: $color-text-secondary;
+    
+    &:hover {
+      background-color: rgba($color-border, 0.2);
+      color: $color-text;
+    }
+  }
+  
+  &-danger {
+    background-color: #ef4444;
+    color: white;
+    
+    &:hover {
+      background-color: #dc2626;
+    }
+  }
+  
+  &-success {
+    background-color: #10b981;
+    color: white;
+    
+    &:hover {
+      background-color: #059669;
+    }
+  }
+  
+  // Tamaños
+  &-lg {
+    padding: $spacing-md $spacing-xl;
+    font-size: $font-size-base;
+  }
+  
+  &-sm {
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-xs;
+  }
+  
+  // Icono
+  &-icon {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: $border-radius-full;
+    
+    &-sm {
+      width: 28px;
+      height: 28px;
+    }
+    
+    &-lg {
+      width: 42px;
+      height: 42px;
+    }
+  }
+  
+  // Disabled
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  // Espaciado para iconos
+  i, svg {
+    margin-right: $spacing-xs;
+    
+    &:last-child:first-child {
+      margin-right: 0;
+    }
+  }
+}
+
+// Formularios
+.form {
+  &-group {
+    margin-bottom: $spacing-md;
+  }
+  
+  &-label {
+    display: block;
+    font-size: $font-size-sm;
+    color: $color-text-tertiary;
+    margin-bottom: $spacing-xs;
+  }
+  
+  &-control {
+    width: 100%;
+    background: rgba($color-bg-secondary, 0.5);
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    color: $color-text;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-base;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+    
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+    }
+    
+    &::placeholder {
+      color: $color-text-muted;
+    }
+    
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+  
+  select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $spacing-md center;
+    padding-right: $spacing-2xl;
+  }
+  
+  textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  &-text {
+    margin-top: $spacing-xs;
+    font-size: $font-size-xs;
+    color: $color-text-tertiary;
+  }
+  
+  &-error {
+    margin-top: $spacing-xs;
+    font-size: $font-size-xs;
+    color: #ef4444;
+  }
+}
+
+// Tags
+.tag {
+  display: inline-flex;
+  align-items: center;
+  background: rgba($color-primary, 0.1);
+  border: 1px solid rgba($color-primary, 0.2);
+  border-radius: $border-radius-full;
+  padding: $spacing-xs $spacing-md;
+  font-size: $font-size-sm;
+  color: $color-primary-light;
+  
+  &-secondary {
+    background: rgba($color-text-tertiary, 0.1);
+    border: 1px solid rgba($color-text-tertiary, 0.2);
+    color: $color-text-secondary;
+  }
+  
+  &-danger {
+    background: rgba(#ef4444, 0.1);
+    border: 1px solid rgba(#ef4444, 0.2);
+    color: #ef4444;
+  }
+  
+  &-success {
+    background: rgba(#10b981, 0.1);
+    border: 1px solid rgba(#10b981, 0.2);
+    color: #10b981;
+  }
+  
+  &-remove {
+    background: transparent;
+    border: none;
+    color: inherit;
+    margin-left: $spacing-xs;
+    padding: 0;
+    font-size: $font-size-xs;
+    opacity: 0.7;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transition: opacity $transition-fast, background-color $transition-fast;
+    
+    &:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// Paneles para secciones
+.panel {
+  background: rgba($color-bg-secondary, 0.2);
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  border: 1px solid $color-border;
+  margin-bottom: $spacing-xl;
+  
+  &-header {
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $color-border;
+  }
+  
+  &-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text;
+    margin: 0;
+  }
+  
+  &-body {
+    margin-bottom: $spacing-md;
+  }
+  
+  &-footer {
+    margin-top: $spacing-lg;
+    padding-top: $spacing-sm;
+    border-top: 1px solid $color-border;
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-sm;
+  }
+}
+
+// Utilidades básicas
+.divider {
+  height: 1px;
+  background-color: $color-border;
+  margin: $spacing-lg 0;
+  
+  &-sm {
+    margin: $spacing-md 0;
+  }
+  
+  &-lg {
+    margin: $spacing-xl 0;
+  }
+}
+
+// Avatar
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid $color-border;
+  
+  &-sm {
+    width: 32px;
+    height: 32px;
+  }
+  
+  &-lg {
+    width: 56px;
+    height: 56px;
+  }
+  
+  &-xl {
+    width: 72px;
+    height: 72px;
+  }
+} 

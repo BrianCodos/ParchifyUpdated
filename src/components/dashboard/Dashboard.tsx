@@ -1,99 +1,94 @@
 import React, { useState } from 'react';
-import type { MoodHandlers } from '../../types';
 import './Dashboard.scss';
 
-interface DashboardProps extends MoodHandlers {
-    moods: string[];
+interface DashboardProps {
+  moods: string[];
+  onAddMood: (moodName: string) => void;
+  onDeleteMood: (moodName: string) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ moods, onAddMood, onDeleteMood }) => {
-    const [newMood, setNewMood] = useState<string>('');
+export const Dashboard: React.FC<DashboardProps> = ({ moods, onAddMood, onDeleteMood }) => {
+  const [newMood, setNewMood] = useState('');
 
-    const handleAddMood = () => {
-        if (newMood.trim() && !moods.includes(newMood.trim())) {
-            onAddMood(newMood.trim());
-            setNewMood('');
-        } else if (moods.includes(newMood.trim())) {
-            alert('Este mood ya existe.');
-        }
-    };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newMood.trim()) {
+      onAddMood(newMood.trim());
+      setNewMood('');
+    }
+  };
 
-    const handleDeleteMood = (mood: string) => {
-        onDeleteMood(mood);
-    };
+  return (
+    <div className="dashboard-container">
+      <h1 className="heading-hero text-center">Dashboard</h1>
+      <p className="text-secondary text-center mb-2xl">
+        Administra tus preferencias y visualiza estadísticas
+      </p>
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            handleAddMood();
-        }
-    };
-
-    return (
-        <div className="dashboard-container">
-            <h2 className="dashboard-title">Dashboard</h2>
-            <p className="dashboard-subtitle">Gestiona la configuración de tu aplicación</p>
-            
-            <div className="dashboard-section">
-                <div className="dashboard-section-header">
-                    <i className="fas fa-sliders-h dashboard-section-icon"></i>
-                    <h3 className="dashboard-section-title">Gestionar Moods</h3>
-                </div>
-                <p className="dashboard-section-description">
-                    Añade o elimina moods para clasificar tus eventos.
-                </p>
-                
-                <div className="mood-form">
-                    <input 
-                        type="text"
-                        placeholder="Nuevo mood..."
-                        value={newMood}
-                        onChange={(e) => setNewMood(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        className="mood-input"
-                    />
-                    <button 
-                        onClick={handleAddMood}
-                        className="mood-add-btn"
-                    >
-                        <i className="fas fa-plus"></i>
-                        Añadir
-                    </button>
-                </div>
-                
-                <div className="mood-list">
-                    {moods.map((mood) => (
-                        <div key={mood} className="mood-item">
-                            <span className="mood-name">{mood}</span>
-                            <button
-                                onClick={() => handleDeleteMood(mood)}
-                                className="mood-delete-btn"
-                                aria-label="Eliminar mood"
-                                title="Eliminar mood"
-                            >
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <div className="dashboard-section">
-                <div className="dashboard-section-header">
-                    <i className="fas fa-chart-line dashboard-section-icon"></i>
-                    <h3 className="dashboard-section-title">Estadísticas</h3>
-                </div>
-                <p className="dashboard-section-description">
-                    Aquí encontrarás estadísticas sobre tus eventos.
-                </p>
-                <div className="stats-container">
-                    <div className="stats-icon">
-                        <i className="fas fa-chart-bar"></i>
-                    </div>
-                    <p className="stats-text">Las estadísticas estarán disponibles pronto.</p>
-                </div>
-            </div>
+      <section className="section">
+        <div className="section-header">
+          <i className="fas fa-heart section-header-icon"></i>
+          <h2 className="section-header-title">Mis Moods</h2>
         </div>
-    );
+        <p className="text-body mb-xl">
+          Los moods te ayudan a encontrar eventos según tu estado de ánimo o ganas. Agrega los que necesites.
+        </p>
+
+        <form onSubmit={handleSubmit} className="d-flex gap-sm mb-xl">
+          <input
+            type="text"
+            value={newMood}
+            onChange={(e) => setNewMood(e.target.value)}
+            placeholder="Agregar nuevo mood..."
+            className="form-control"
+            aria-label="Nombre del nuevo mood"
+          />
+          <button type="submit" className="button button-primary">
+            <i className="fas fa-plus"></i> Agregar
+          </button>
+        </form>
+
+        <div className="mood-list">
+          {moods.length > 0 ? (
+            moods.map((mood, index) => (
+              <div key={index} className="card card-compact">
+                <div className="card-body d-flex justify-content-between align-items-center">
+                  <span className="text-body">{mood}</span>
+                  <button
+                    onClick={() => onDeleteMood(mood)}
+                    className="button button-icon"
+                    aria-label={`Eliminar mood ${mood}`}
+                  >
+                    <i className="fas fa-trash-alt text-color-tertiary"></i>
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="panel text-center p-xl">
+              <i className="fas fa-fire-alt fs-2xl mb-md text-color-tertiary"></i>
+              <p className="text-secondary">No has agregado ningún mood todavía</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-header">
+          <i className="fas fa-chart-line section-header-icon"></i>
+          <h2 className="section-header-title">Estadísticas</h2>
+        </div>
+        <p className="text-body mb-xl">
+          Aquí podrás visualizar estadísticas sobre tus eventos y actividad
+        </p>
+
+        <div className="panel text-center">
+          <i className="fas fa-chart-bar fs-3xl mb-md text-color-tertiary"></i>
+          <p className="text-secondary">Las estadísticas estarán disponibles próximamente</p>
+        </div>
+      </section>
+    </div>
+  );
 };
 
 export default Dashboard; 

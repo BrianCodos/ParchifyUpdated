@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Estilos básicos para el documento completo */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 
+  El resto de los estilos están definidos en:
+  - src/styles/main.scss (importa todo el sistema de diseño)
+  - src/styles/abstracts/_typography.scss (estilos de tipografía)
+  - src/styles/abstracts/_components.scss (componentes comunes)
+  - src/styles/abstracts/_utilities.scss (utilidades)
+*/ 

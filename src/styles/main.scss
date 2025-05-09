@@ -139,4 +139,20 @@ button {
 
 .styled-scrollbar {
   @include styled-scrollbar;
-} 
+}
+
+// Fundamentos y abstracciones
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+// Estilos tipográficos
+@import 'abstracts/typography';
+
+// Componentes comunes
+@import 'abstracts/components';
+
+// Utilidades
+@import 'abstracts/utilities';
+
+// Estilos específicos de páginas
+@import 'App'; 

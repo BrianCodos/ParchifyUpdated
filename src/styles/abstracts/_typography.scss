@@ -1,0 +1,173 @@
+// Archivo de tipografía para mantener una UI consistente en toda la aplicación
+@import 'variables';
+
+// Estilos de tipografía para la aplicación completa
+body {
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+  color: $color-text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Encabezados
+.heading {
+  margin-top: 0;
+  
+  // Encabezado principal - para títulos de página
+  &-hero {
+    font-size: $font-size-headline;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-tight;
+    margin-bottom: $spacing-xl;
+    color: $color-primary;
+    
+    @include screen-sm {
+      font-size: calc(#{$font-size-3xl} + 0.5rem);
+    }
+  }
+  
+  // Encabezado de página
+  &-page {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-tight;
+    margin-bottom: $spacing-lg;
+    color: $color-primary;
+  }
+  
+  // Título de sección
+  &-section {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-tight;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $color-border;
+    color: $color-text;
+  }
+  
+  // Subtítulo de sección
+  &-subsection {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-tight;
+    margin-bottom: $spacing-md;
+    color: $color-text-secondary;
+  }
+  
+  // Título de categoría
+  &-category {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-normal;
+    margin-bottom: $spacing-sm;
+    color: $color-text-secondary;
+  }
+  
+  // Título de tarjeta o elemento
+  &-card {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-normal;
+    margin-bottom: $spacing-sm;
+    color: $color-text;
+  }
+  
+  // Variantes con gradiente de texto
+  &-gradient {
+    @include text-gradient;
+  }
+}
+
+// Párrafos
+.text {
+  margin-top: 0;
+  
+  // Texto principal del cuerpo
+  &-body {
+    font-size: $font-size-base;
+    line-height: $line-height-normal;
+    margin-bottom: $spacing-md;
+    color: $color-text;
+  }
+  
+  // Texto secundario o descriptivo
+  &-secondary {
+    font-size: $font-size-base;
+    line-height: $line-height-normal;
+    color: $color-text-secondary;
+  }
+  
+  // Texto pequeño para notas o detalles
+  &-small {
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+    color: $color-text-tertiary;
+  }
+  
+  // Texto más pequeño para ayudas
+  &-xs {
+    font-size: $font-size-xs;
+    line-height: $line-height-normal;
+    color: $color-text-muted;
+  }
+  
+  // Texto enfatizado
+  &-emphasized {
+    font-weight: $font-weight-medium;
+    color: $color-text;
+  }
+  
+  // Texto con gradiente
+  &-gradient {
+    @include text-gradient;
+  }
+}
+
+// Etiquetas y metadatos
+.label {
+  display: block;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-xs;
+  color: $color-text-tertiary;
+  
+  &-large {
+    font-size: $font-size-base;
+  }
+  
+  &-small {
+    font-size: $font-size-xs;
+  }
+}
+
+// Enlaces y acciones de texto
+.link {
+  color: $color-primary-light;
+  text-decoration: none;
+  @include transition(color);
+  
+  &:hover {
+    color: $color-accent-light;
+    text-decoration: underline;
+  }
+  
+  &-secondary {
+    color: $color-text-secondary;
+    
+    &:hover {
+      color: $color-text;
+    }
+  }
+  
+  &-muted {
+    color: $color-text-muted;
+    
+    &:hover {
+      color: $color-text-secondary;
+    }
+  }
+} 

@@ -6,11 +6,11 @@
   background: $gradient-bg;
   color: $color-text;
   height: 100vh;
-  @include flex-column;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
+  @include flex-column;
 }
 
 /* App content */
@@ -48,13 +48,20 @@
 .content-wrapper {
   background: $color-bg;
   width: 100%;
+  padding: $spacing-lg;
   overflow-x: hidden;
   @include flex-column;
   flex-grow: 1;
   min-height: 0;
   height: 100%;
   
-
+  @include screen-sm {
+    padding: $spacing-lg;
+  }
+  
+  @include screen-lg {
+    padding: $spacing-xl;
+  }
 }
 
 /* Content container */
