@@ -150,16 +150,7 @@ const EventCard: React.FC<EventCardProps> = ({
                             <h3 className="event-card-title">{event.place}</h3>
                         </div>
                         
-                        {/* Mood Tags overlay */}
-                        {moodTags.length > 0 && (
-                            <div className="event-card-overlay-moods">
-                                {moodTags.map((mood, index) => (
-                                    <span key={index} className="event-card-mood-tag">
-                                        {mood.trim()}
-                                    </span>
-                                ))}
-                            </div>
-                        )}
+                       
                         
                         {/* Draft Badge if needed */}
                         {isDraftCard && (
@@ -170,6 +161,16 @@ const EventCard: React.FC<EventCardProps> = ({
                     
                 {/* Event Content Section (below image) */}
                 <div className="event-card-content">
+                     {/* Mood Tags overlay */}
+                     {moodTags.length > 0 && (
+                            <div className="event-card-overlay-moods">
+                                {moodTags.map((mood, index) => (
+                                    <span key={index} className="event-card-mood-tag">
+                                        {mood.trim()}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     <div className="event-card-info">
                         <div className="event-info-item">
                             <i className="fas fa-map-marker-alt"></i>

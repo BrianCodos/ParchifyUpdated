@@ -104,7 +104,7 @@
   
   &-overlay-title {
     position: absolute;
-    top: $spacing-sm;
+    bottom: $spacing-sm;
     left: $spacing-sm;
     right: $spacing-sm;
     z-index: 10;
@@ -128,14 +128,15 @@
   }
   
   &-overlay-moods {
-    position: absolute;
+    // position: absolute;
     bottom: $spacing-sm;
     left: $spacing-sm;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     z-index: 10;
-    max-width: 80%;
+    max-width: 100%;
+    margin-bottom: 1rem;
   }
   
   /* Action buttons styling */
@@ -245,8 +246,9 @@
       text-align: center;
     }
   }
-  
+  // Link to event
   &-link {
+    margin-top: 1rem;
     display: inline-flex;
     align-items: center;
     color: #93c5fd;
@@ -264,17 +266,16 @@
   }
   
   &-mood-tag {
-    background-color: rgba($color-bg-secondary, 0.8);
+    background-color: rgba($color-primary, 0.8);
     color: white;
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     padding: 4px 8px;
     border-radius: $border-radius-full;
     backdrop-filter: blur(4px);
+    border: 1px solid $color-primary;
     
-    &:hover {
-      background-color: rgba($color-bg-secondary, 0.9);
-    }
+ 
   }
   
   &-notes {
@@ -306,7 +307,7 @@
   }
   
   .event-cover-fee {
-    color: #f59e0b;
+    color: #0bf536;
     font-weight: $font-weight-medium;
   }
 }

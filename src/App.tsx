@@ -218,6 +218,18 @@ const App: React.FC = () => {
                     onClose={() => setIsSidebarOpen(false)}
                     setEditingEvent={setEditingEvent}
                     onNewEvent={handleNewEvent}
+                    counts={{
+                        events: events.length,
+                        calendar: events.filter(event => {
+                            // Filter events for current month
+                            const eventDate = new Date(event.date);
+                            return eventDate.getMonth() === calendarDate.getMonth() &&
+                                   eventDate.getFullYear() === calendarDate.getFullYear();
+                        }).length,
+                        favorites: favoriteEvents.length,
+                        drafts: drafts.length,
+                        moods: moods.length
+                    }}
                 />
                 {isSidebarOpen && window.innerWidth < 768 && (
                     <div

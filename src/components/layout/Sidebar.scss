@@ -27,7 +27,7 @@
   &.collapsed {
     width: 5rem;
     
-    .sidebar-label, .sidebar-profile-text {
+    .sidebar-label, .sidebar-profile-text, .profile-toggle-icon {
       display: none;
       opacity: 0;
     }
@@ -74,6 +74,15 @@
     
     .sidebar-actions {
       flex-direction: column;
+    }
+    
+    .sidebar-item-count {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 10px;
+      min-width: 16px;
+      height: 16px;
     }
   }
 
@@ -152,6 +161,7 @@
   display: flex;
   flex-direction: column;
   padding: $spacing-base;
+  margin-top: auto;
   
   .sidebar-profile-button {
     display: flex;
@@ -161,9 +171,17 @@
     border-radius: $border-radius-lg;
     @include transition;
     margin-bottom: $spacing-sm;
+    justify-content: space-between;
     
     &:hover {
       background-color: rgba($color-bg-secondary, 0.5);
+    }
+    
+    .profile-toggle-icon {
+      color: $color-text-muted;
+      font-size: $font-size-xs;
+      margin-left: auto;
+      @include transition;
     }
   }
   
@@ -179,6 +197,7 @@
     color: $color-text;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
+    flex-grow: 1;
   }
   
   .sidebar-profile-actions {
@@ -188,6 +207,7 @@
     gap: $spacing-xs;
     padding-top: $spacing-xs;
     padding-bottom: $spacing-xs;
+    animation: slideDown 0.2s ease-out;
   }
   
   .sidebar-profile-action-button {
@@ -211,6 +231,17 @@
       font-size: 0.9rem;
       text-align: center;
     }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -258,6 +289,11 @@
     background-color: rgba($color-primary, 0.1) !important;
     color: $color-primary-light;
     font-weight: $font-weight-semibold;
+    
+    .sidebar-item-count {
+      background-color: $color-primary-light;
+      color: $color-bg-tertiary;
+    }
   }
 }
 
@@ -316,4 +352,20 @@
 .sidebar-add-icon {
   margin-right: $spacing-sm;
   flex-shrink: 0;
+}
+
+/* Count badge for sidebar items */
+.sidebar-item-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgba($color-primary, 0.3);
+  color: white;
+  font-size: 11px;
+  font-weight: $font-weight-medium;
+  margin-left: auto;
+  padding: 0 $spacing-xs;
 } 

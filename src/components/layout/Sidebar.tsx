@@ -9,6 +9,14 @@ interface SidebarProps {
     onClose: () => void;
     setEditingEvent: (event: any) => void;
     onNewEvent?: () => void;
+    // Counts for different sections
+    counts?: {
+        events?: number;
+        calendar?: number;
+        favorites?: number;
+        drafts?: number;
+        moods?: number;
+    };
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -17,9 +25,11 @@ const Sidebar: React.FC<SidebarProps> = ({
     isOpen, 
     onClose, 
     setEditingEvent,
-    onNewEvent
+    onNewEvent,
+    counts = {}
 }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [showProfileOptions, setShowProfileOptions] = useState(false);
     
     // URL de imagen aleatoria para el avatar
     const avatarUrl = "https://randomuser.me/api/portraits/men/32.jpg";
@@ -36,6 +46,10 @@ const Sidebar: React.FC<SidebarProps> = ({
         setIsCollapsed(!isCollapsed);
     };
 
+    const toggleProfileOptions = () => {
+        setShowProfileOptions(!showProfileOptions);
+    };
+
     const handleNewEventClick = () => {
         if (onNewEvent) {
             onNewEvent();
@@ -49,6 +63,14 @@ const Sidebar: React.FC<SidebarProps> = ({
         if (window.innerWidth < 768) {
             onClose();
         }
+    };
+
+    // Helper to render count badge if count exists and is greater than 0
+    const renderCountBadge = (count?: number) => {
+        if (count && count > 0) {
+            return <span className="sidebar-item-count">{count}</span>;
+        }
+        return null;
     };
 
     return (
@@ -76,34 +98,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </div>
                 </div>
 
-                {/* Perfil de usuario */}
-                <div className="sidebar-profile">
-                    <button 
-                        className="sidebar-profile-button"
-                        onClick={handleProfileClick}
-                    >
-                        <img src={avatarUrl} alt="Perfil" className="sidebar-avatar" />
-                        <span className="sidebar-profile-text">Mi Perfil</span>
-                    </button>
-                    
-                    <div className="sidebar-profile-actions">
-                        <button className="sidebar-profile-action-button" onClick={handleProfileClick}>
-                            <i className="fas fa-user-edit"></i>
-                            <span className="sidebar-label">Editar Perfil</span>
-                        </button>
-                        <button className="sidebar-profile-action-button">
-                            <i className="fas fa-bell"></i>
-                            <span className="sidebar-label">Notificaciones</span>
-                        </button>
-                        <button className="sidebar-profile-action-button">
-                            <i className="fas fa-cog"></i>
-                            <span className="sidebar-label">Configuración</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div className="sidebar-divider"></div>
-
                 <div className="sidebar-body styled-scrollbar">
                     <nav className="sidebar-nav">
                         <button
@@ -118,11 +112,11 @@ const Sidebar: React.FC<SidebarProps> = ({
 
                         {[
                             { view: 'list-cards', label: 'Descubrir Eventos', icon: 'fas fa-clipboard-list' },
-                            { view: 'list-table', label: 'Mis Eventos', icon: 'fas fa-table' },
-                            { view: 'calendar', label: 'Calendario', icon: 'fas fa-calendar-alt' },
-                            { view: 'saved', label: 'Favoritos', icon: 'fas fa-star' },
-                            { view: 'drafts', label: 'Borradores', icon: 'fas fa-file-alt' },
-                            { view: 'dashboard', label: 'Moods', icon: 'fas fa-chart-bar' },
+                            { view: 'list-table', label: 'Mis Eventos', icon: 'fas fa-table', count: counts.events },
+                            { view: 'calendar', label: 'Calendario', icon: 'fas fa-calendar-alt', count: counts.calendar },
+                            { view: 'saved', label: 'Favoritos', icon: 'fas fa-star', count: counts.favorites },
+                            { view: 'drafts', label: 'Borradores', icon: 'fas fa-file-alt', count: counts.drafts },
+                            { view: 'dashboard', label: 'Moods', icon: 'fas fa-chart-bar', count: counts.moods },
                         ].map((item) => (
                             <button
                                 key={item.view}
@@ -132,9 +126,41 @@ const Sidebar: React.FC<SidebarProps> = ({
                             >
                                 <i className={`${item.icon} sidebar-nav-icon ${currentView === item.view ? 'active' : ''}`}></i>
                                 <span className="sidebar-label">{item.label}</span>
+                                {renderCountBadge(item.count)}
                             </button>
                         ))}
                     </nav>
+                </div>
+
+                <div className="sidebar-divider"></div>
+
+                {/* Perfil de usuario */}
+                <div className="sidebar-profile">
+                    <button 
+                        className="sidebar-profile-button"
+                        onClick={toggleProfileOptions}
+                    >
+                        <img src={avatarUrl} alt="Perfil" className="sidebar-avatar" />
+                        <span className="sidebar-profile-text">Mi Perfil</span>
+                        <i className={`fas fa-chevron-${showProfileOptions ? 'up' : 'down'} profile-toggle-icon`}></i>
+                    </button>
+                    
+                    {showProfileOptions && (
+                        <div className="sidebar-profile-actions">
+                            <button className="sidebar-profile-action-button" onClick={handleProfileClick}>
+                                <i className="fas fa-user-edit"></i>
+                                <span className="sidebar-label">Editar Perfil</span>
+                            </button>
+                            <button className="sidebar-profile-action-button">
+                                <i className="fas fa-bell"></i>
+                                <span className="sidebar-label">Notificaciones</span>
+                            </button>
+                            <button className="sidebar-profile-action-button">
+                                <i className="fas fa-cog"></i>
+                                <span className="sidebar-label">Configuración</span>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </aside>
