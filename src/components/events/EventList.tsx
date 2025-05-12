@@ -112,7 +112,7 @@ return (
     <section className="event-list-container">
         {/* Sección de encabezado */}
         <header className="event-list-header">
-            <h1 className="event-list-title">Jamás te volverás a perder de nada, tenemos el plan perfecto para tu estado de animo</h1>
+            <h1 className="event-list-title">Despachado? En Parchiify tenemos un plan perfecto para ti</h1>
         </header>
         {/* Search container */}
         <div className="search-container-wrapper">
@@ -130,6 +130,7 @@ return (
                         <i className="fas fa-times"></i>
                     </button>
                 )}
+                
             </div>
             {/* <select
                 value={selectedCity}
@@ -144,8 +145,8 @@ return (
             <button className="primary-btn">
                 Buscame el mejor plan
             </button>
-        </div>
-        <h1 className='mood-filter-title'>Buscada por mood</h1>
+                {/* Buscar por mood */}
+                <h1 className='mood-filter-title'>Buscada por mood</h1>
          {/* Sección de filtro por Mood */}
             <div className="mood-filter-container">
                 <div className="mood-filter-options">
@@ -164,6 +165,8 @@ return (
                     ))}
                 </div>
             </div>
+        </div>
+
 
            
         

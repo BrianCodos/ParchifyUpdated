@@ -4,17 +4,18 @@
 /* Calendar View Component */
 .calendar {
   &-container {
-    padding: $spacing-base;
-    border-radius: $border-radius-md;
-    width: 100%;
-    max-width: 100%;
+    margin: 0 auto;
+    width: 70%;
     overflow-x: hidden;
-    height: 100%;
     @include flex-column;
+
+
   }
 
   &-header {
+    @include flex-between;
     margin-bottom: $spacing-base;
+    
     text-align: center;
   }
 
@@ -39,7 +40,7 @@
     padding: $spacing-sm $spacing-md;
     background-color: rgba(55, 65, 81, 0.5);
     border-radius: $border-radius-md;
-    width: 100%;
+    width: 40%;
   }
 
   &-nav-button {
@@ -66,7 +67,7 @@
   }
 
   &-month-label {
-    font-size: $font-size-xl;
+    font-size: .5rem;
     font-weight: $font-weight-semibold;
     color: $color-text;
     
@@ -303,6 +304,7 @@
     
     &-cards {
       margin-top: $spacing-lg;
+      padding: 2rem;
       
       &-header {
         font-weight: $font-weight-semibold;

@@ -153,29 +153,30 @@ const CalendarView: React.FC<CalendarViewProps> = ({
     return (
         <section className="calendar-container">
             <header className="calendar-header">
-                <h1 className="calendar-title">Calendario de Eventos</h1>
+                <h1 className="heading-hero text-center">Calendario de Eventos</h1>
+                
             </header>
             <div className="calendar-controls">
-                <button
-                    onClick={() => setCalendarDate(new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1))}
-                    className="calendar-nav-button"
-                >
-                    <i className="fas fa-chevron-left"></i>
-                    <span className="hidden-mobile">Mes Anterior</span>
-                </button>
-                <h2 className="calendar-month-label">
-                    {`${monthNames[calendarDate.getMonth()]} ${calendarDate.getFullYear()}`}
-                </h2>
-                <button
-                    onClick={() => setCalendarDate(new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1))}
-                    className="calendar-nav-button"
-                >
-                    <span className="hidden-mobile">Mes Siguiente</span>
-                    <i className="fas fa-chevron-right"></i>
-                </button>
-            </div>
-            
+                    <button
+                        onClick={() => setCalendarDate(new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1))}
+                        className="calendar-nav-button"
+                    >
+                        <i className="fas fa-chevron-left"></i>
+                        <span className="hidden-mobile">Mes Anterior</span>
+                    </button>
+                    <h2 className="calendar-month-label">
+                        {`${monthNames[calendarDate.getMonth()]} ${calendarDate.getFullYear()}`}
+                    </h2>
+                    <button
+                        onClick={() => setCalendarDate(new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1))}
+                        className="calendar-nav-button"
+                    >
+                        <span className="hidden-mobile">Mes Siguiente</span>
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             <div className="calendar-layout">
+                
                 {/* Main Calendar (2 columns) */}
                 <div className="calendar-main-section">
                     <div className="calendar-grid">

@@ -23,6 +23,7 @@
     font-size: 3.25rem;
     font-weight: $font-weight-regular;
     line-height: 1.1;
+
     background: linear-gradient(120deg, $color-primary-dark 0%, #a855f7 50%, #c084fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -55,10 +56,12 @@
 
 /* Search container */
 .search-container-wrapper {
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
   @include flex-center;
+  @include flex-column;
   gap: $spacing-xl;
-  margin: $spacing-xl 0;
+ 
 
   .search {
     &-container {
@@ -79,7 +82,7 @@
     &-input {
       width: 100%;
       background-color: $color-bg-secondary;
-      border: 1px solid $color-border;
+      border: 1px solid rgba($color-primary, 1);
       border-radius: $border-radius-xl;
       padding: 12px 42px;
       color: $color-text;

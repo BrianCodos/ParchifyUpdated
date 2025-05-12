@@ -248,45 +248,88 @@
     font-size: $font-size-xs;
     margin-top: 4px;
   }
+  
+  &-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    margin-top: $spacing-sm;
+    background-color: #232938;
+    border: 1px solid #2f3649;
+    border-radius: $border-radius-md;
+    padding: $spacing-base;
+  }
+}
+
+.notification-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  
+  input[type="checkbox"] {
+    margin-right: $spacing-xs;
+    cursor: pointer;
+  }
+  
+  span {
+    font-size: $font-size-sm;
+    color: $color-text;
+  }
 }
 
 .btn {
-  &-cancel,
-  &-save-draft,
-  &-save {
-    padding: 10px 16px;
+  &-cancel {
+    background-color: #374151;
+    color: $color-text;
+    padding: $spacing-sm $spacing-xl;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    border: 1px solid #4b5563;
+    transition: background-color $transition-fast;
+    
+    &:hover {
+      background-color: #4b5563;
+    }
+  }
+  
+  &-save-draft {
+    background-color: #6b7cfe;
+    color: white;
+    padding: $spacing-sm $spacing-xl;
     border-radius: $border-radius-md;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     cursor: pointer;
     border: none;
-    @include transition;
-  }
-  
-  &-cancel {
-    background-color: #334155;
-    color: $color-text-secondary;
+    transition: background-color $transition-fast;
     
     &:hover {
-      background-color: #475569;
-    }
-  }
-  
-  &-save-draft {
-    background-color: #eab308;
-    color: #1e293b;
-    
-    &:hover {
-      background-color: #ca8a04;
+      background-color: #5a6bfd;
     }
   }
   
   &-save {
     background-color: #6b7cfe;
     color: white;
+    padding: $spacing-sm $spacing-xl;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    border: none;
+    transition: background-color $transition-fast;
     
     &:hover {
       background-color: #5a6bfd;
+    }
+    
+    &-green {
+      background-color: #10b981;
+      
+      &:hover {
+        background-color: #059669;
+      }
     }
   }
 }

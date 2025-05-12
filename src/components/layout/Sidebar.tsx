@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import type { ViewType } from '../../types';
+import React, { useState, useEffect } from 'react';
 import './Sidebar.scss';
+import type { ViewType } from '../../types';
 
 interface SidebarProps {
     setCurrentView: (view: ViewType) => void;
     currentView: ViewType;
-    isOpen: boolean;
-    onClose: () => void;
     setEditingEvent: (event: any) => void;
     onNewEvent?: () => void;
     // Counts for different sections
@@ -19,16 +17,31 @@ interface SidebarProps {
     };
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ 
-    setCurrentView, 
-    currentView, 
-    isOpen, 
-    onClose, 
+const Sidebar: React.FC<SidebarProps> = ({
+    setCurrentView,
+    currentView,
     setEditingEvent,
     onNewEvent,
     counts = {}
 }) => {
+    // Estado local para controlar si el sidebar está colapsado
     const [isCollapsed, setIsCollapsed] = useState(false);
+    // Para pantallas pequeñas, inicializar como colapsado
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setIsCollapsed(true);
+            }
+        };
+        
+        // Verificar tamaño inicial
+        handleResize();
+        
+        // Agregar listener para cambios de tamaño
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    
     const [showProfileOptions, setShowProfileOptions] = useState(false);
     
     // URL de imagen aleatoria para el avatar
@@ -37,9 +50,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     const handleViewChange = (view: ViewType) => {
         setCurrentView(view);
         setEditingEvent(null);
-        if (window.innerWidth < 768) {
-            onClose();
-        }
     };
     
     const toggleCollapse = () => {
@@ -60,9 +70,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     const handleProfileClick = () => {
         setCurrentView('profile' as ViewType);
         setEditingEvent(null);
-        if (window.innerWidth < 768) {
-            onClose();
-        }
     };
 
     // Helper to render count badge if count exists and is greater than 0
@@ -73,33 +80,26 @@ const Sidebar: React.FC<SidebarProps> = ({
         return null;
     };
 
+    // Determinando la clase CSS para el sidebar
+    // La clase 'expanded-mobile' se aplica en móvil cuando no está colapsado
+    const isMobile = window.innerWidth < 768;
+    const sidebarClass = `sidebar ${isCollapsed ? 'collapsed' : isMobile ? 'expanded-mobile' : ''}`;
+
     return (
-        <aside className={`sidebar ${isOpen ? 'open' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
+        <aside className={sidebarClass}>
             <div className="sidebar-container">
                 <div className="sidebar-header">
                     <div className="sidebar-header-content">
-                        <div className="sidebar-logo">
-                            <h1 className="text-gradient">Parchify</h1>
-                        </div>
-                        <div className="sidebar-header-actions">
-                            <button 
-                                onClick={toggleCollapse}
-                                className="sidebar-collapse-button"
-                            >
-                                <i className={`fas fa-chevron-${isCollapsed ? 'right' : 'left'}`}></i>
-                            </button>
-                            <button 
-                                onClick={onClose}
-                                className="sidebar-close-button"
-                            >
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="sidebar-body styled-scrollbar">
-                    <nav className="sidebar-nav">
+                        {/* Botones en la misma fila - controles de la barra lateral */}
+                        <button 
+                            onClick={toggleCollapse}
+                            className="sidebar-collapse-button"
+                            aria-label={isCollapsed ? "Expandir sidebar" : "Colapsar sidebar"}
+                            title={isCollapsed ? "Expandir sidebar" : "Colapsar sidebar"}
+                        >
+                            <i className={`fas fa-chevron-${isCollapsed ? 'right' : 'left'}`}></i>
+                        </button>
+                        
                         <button
                             onClick={handleNewEventClick}
                             className="sidebar-add-button"
@@ -107,9 +107,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                             <i className="fas fa-plus sidebar-add-icon"></i>
                             <span className="sidebar-label">Nuevo Evento</span>
                         </button>
+                    </div>
+                </div>
 
-                        <div className="sidebar-divider"></div>
+                <div className="sidebar-divider"></div>
 
+                <div className="sidebar-body styled-scrollbar">
+                    <nav className="sidebar-nav">
                         {[
                             { view: 'list-cards', label: 'Descubrir Eventos', icon: 'fas fa-clipboard-list' },
                             { view: 'list-table', label: 'Mis Eventos', icon: 'fas fa-table', count: counts.events },
@@ -117,50 +121,25 @@ const Sidebar: React.FC<SidebarProps> = ({
                             { view: 'saved', label: 'Favoritos', icon: 'fas fa-star', count: counts.favorites },
                             { view: 'drafts', label: 'Borradores', icon: 'fas fa-file-alt', count: counts.drafts },
                             { view: 'dashboard', label: 'Moods', icon: 'fas fa-chart-bar', count: counts.moods },
-                        ].map((item) => (
+                            // Perfil como último elemento del menú
+                            { view: 'profile', label: 'Mi Perfil', icon: '', isProfile: true }
+                        ].map((item, index) => (
                             <button
                                 key={item.view}
                                 onClick={() => handleViewChange(item.view as ViewType)}
-                                className={`sidebar-nav-item ${currentView === item.view ? 'active' : ''}`}
+                                className={`sidebar-nav-item ${currentView === item.view ? 'active' : ''} ${item.isProfile ? 'profile-nav-item' : ''}`}
                                 title={item.label}
                             >
-                                <i className={`${item.icon} sidebar-nav-icon ${currentView === item.view ? 'active' : ''}`}></i>
+                                {item.isProfile ? (
+                                    <img src={avatarUrl} alt="Perfil" className="sidebar-nav-avatar" />
+                                ) : (
+                                    <i className={`${item.icon} sidebar-nav-icon ${currentView === item.view ? 'active' : ''}`}></i>
+                                )}
                                 <span className="sidebar-label">{item.label}</span>
                                 {renderCountBadge(item.count)}
                             </button>
                         ))}
                     </nav>
-                </div>
-
-                <div className="sidebar-divider"></div>
-
-                {/* Perfil de usuario */}
-                <div className="sidebar-profile">
-                    <button 
-                        className="sidebar-profile-button"
-                        onClick={toggleProfileOptions}
-                    >
-                        <img src={avatarUrl} alt="Perfil" className="sidebar-avatar" />
-                        <span className="sidebar-profile-text">Mi Perfil</span>
-                        <i className={`fas fa-chevron-${showProfileOptions ? 'up' : 'down'} profile-toggle-icon`}></i>
-                    </button>
-                    
-                    {showProfileOptions && (
-                        <div className="sidebar-profile-actions">
-                            <button className="sidebar-profile-action-button" onClick={handleProfileClick}>
-                                <i className="fas fa-user-edit"></i>
-                                <span className="sidebar-label">Editar Perfil</span>
-                            </button>
-                            <button className="sidebar-profile-action-button">
-                                <i className="fas fa-bell"></i>
-                                <span className="sidebar-label">Notificaciones</span>
-                            </button>
-                            <button className="sidebar-profile-action-button">
-                                <i className="fas fa-cog"></i>
-                                <span className="sidebar-label">Configuración</span>
-                            </button>
-                        </div>
-                    )}
                 </div>
             </div>
         </aside>

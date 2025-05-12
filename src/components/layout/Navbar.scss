@@ -16,6 +16,7 @@
     padding: 0 $spacing-base;
     height: 4rem;
     @include flex-between;
+    position: relative;
     
     @include screen-sm {
       padding: 0 $spacing-lg;
@@ -36,7 +37,14 @@
     padding: $spacing-sm;
     border-radius: $border-radius-md;
     color: $color-text-tertiary;
-    @include transition;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    @include screen-md {
+      display: none;
+    }
     
     &:hover {
       color: white;
@@ -52,6 +60,10 @@
     h1 {
       font-size: $font-size-2xl;
       font-weight: $font-weight-bold;
+      
+      @media (max-width: #{$screen-sm - 1px}) {
+        font-size: $font-size-xl;
+      }
     }
   }
   
@@ -69,7 +81,7 @@
     padding: $spacing-sm;
     border-radius: $border-radius-md;
     color: $color-text-tertiary;
-    @include transition;
+    transition: all 0.3s ease-in-out;
     
     &:hover {
       color: white;
@@ -88,7 +100,7 @@
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    @include transition;
+    transition: all 0.3s ease-in-out;
     box-shadow: 0 1px 3px $color-shadow, 0 1px 2px $color-shadow-dark;
     
     &:hover {
@@ -123,41 +135,5 @@
         font-size: $font-size-base;
       }
     }
-  }
-}
-
-.profile-item {
-  margin-left: $spacing-sm;
-}
-
-.navbar-profile-button {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-xs $spacing-sm;
-  border-radius: $border-radius-lg;
-  @include transition;
-  
-  &:hover {
-    background-color: rgba($color-bg-secondary, 0.5);
-  }
-}
-
-.navbar-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid $color-primary-light;
-}
-
-.profile-text {
-  color: $color-text;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  display: none;
-  
-  @include screen-md {
-    display: block;
   }
 } 

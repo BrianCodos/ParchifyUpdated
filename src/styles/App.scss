@@ -47,20 +47,29 @@
 /* Content wrapper */
 .content-wrapper {
   background: $color-bg;
-  width: 100%;
+  width: 80%;
   padding: $spacing-lg;
+  margin-left: 70px;
   overflow-x: hidden;
   @include flex-column;
   flex-grow: 1;
   min-height: 0;
   height: 100%;
+  background-color: rgb(0, 247, 255);
   
   @include screen-sm {
     padding: $spacing-lg;
+    padding-left: 50%;
+    margin-left: 300px;
+    background-color: aqua;
   }
   
   @include screen-lg {
     padding: $spacing-xl;
+    padding-left: 50%;
+    margin-left: 300px;
+    background-color: aqua;
+    
   }
 }
 

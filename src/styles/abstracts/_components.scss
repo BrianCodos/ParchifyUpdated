@@ -246,9 +246,9 @@
   &-control {
     width: 100%;
     background: rgba($color-bg-secondary, 0.5);
-    border: 1px solid $color-border;
+    border: 1px solid $color-primary;
     border-radius: $border-radius-md;
-    color: $color-text;
+    color: $color-primary;
     padding: $spacing-sm $spacing-md;
     font-size: $font-size-base;
     transition: border-color $transition-fast, box-shadow $transition-fast;
@@ -260,7 +260,8 @@
     }
     
     &::placeholder {
-      color: $color-text-muted;
+      color: $color-primary;
+      
     }
     
     &:disabled {

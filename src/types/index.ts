@@ -11,6 +11,7 @@ export interface Event {
     mood?: string;
     notes?: string;
     imageUrl?: string;
+    notifications?: string[];
 }
 
 export interface EventFormData extends Omit<Event, 'id'> {
@@ -19,6 +20,7 @@ export interface EventFormData extends Omit<Event, 'id'> {
     entryType?: string;
     coverFee?: string;
     selectedMoods?: string[];
+    notifications?: string[];
 }
 
 export type ViewType = 'list-cards' | 'list-table' | 'calendar' | 'saved' | 'dashboard' | 'drafts' | 'form';

@@ -32,6 +32,7 @@ const EventForm: React.FC<EventFormProps> = ({
             entryType: 'Gratuito',
             coverFee: '',
             selectedMoods: [],
+            notifications: []
         };
         return initialData ? { 
             ...defaults, 
@@ -43,12 +44,13 @@ const EventForm: React.FC<EventFormProps> = ({
     const [errors, setErrors] = useState<Partial<Record<keyof EventFormData, string>>>({});
     const [imagePreview, setImagePreview] = useState<string | null>(initialData?.imageUrl || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [showNotificationOptions, setShowNotificationOptions] = useState(false);
 
     useEffect(() => {
         if (initialData) {
             const defaults: EventFormData = {
                 place: '', city: '', date: '', startTime: '', endTime: '', isFree: true, link: '', mood: '', notes: '', imageUrl: '',
-                entryType: 'Gratuito', coverFee: '', selectedMoods: []
+                entryType: 'Gratuito', coverFee: '', selectedMoods: [], notifications: []
             };
             const updatedData = { 
                 ...defaults, 
@@ -57,14 +59,27 @@ const EventForm: React.FC<EventFormProps> = ({
             };
             setFormData(updatedData);
             setImagePreview(initialData.imageUrl || null);
+            if (initialData.date) {
+                setShowNotificationOptions(true);
+            }
         } else {
             setFormData({
                 place: '', city: '', date: '', startTime: '', endTime: '', isFree: true, link: '', mood: '', notes: '', imageUrl: '',
-                entryType: 'Gratuito', coverFee: '', selectedMoods: []
+                entryType: 'Gratuito', coverFee: '', selectedMoods: [], notifications: []
             });
             setImagePreview(null);
+            setShowNotificationOptions(false);
         }
     }, [initialData]);
+
+    // Efecto para mostrar opciones de notificación cuando se selecciona una fecha
+    useEffect(() => {
+        if (formData.date) {
+            setShowNotificationOptions(true);
+        } else {
+            setShowNotificationOptions(false);
+        }
+    }, [formData.date]);
 
     const validateForm = (): boolean => {
         const newErrors: Partial<Record<keyof EventFormData, string>> = {};
@@ -82,7 +97,8 @@ const EventForm: React.FC<EventFormProps> = ({
             const eventData: Event = {
                 ...formData,
                 id: initialData?.id || Date.now().toString(),
-                mood: formData.selectedMoods?.join(',') || ''
+                mood: formData.selectedMoods?.join(',') || '',
+                notifications: formData.notifications
             };
             onAddEvent(eventData);
         }
@@ -93,7 +109,8 @@ const EventForm: React.FC<EventFormProps> = ({
             ...formData,
             id: initialData?.id || Date.now().toString(),
             isDraft: true,
-            mood: formData.selectedMoods?.join(',') || ''
+            mood: formData.selectedMoods?.join(',') || '',
+            notifications: formData.notifications
         };
         onSaveDraft(draftData);
     };
@@ -166,7 +183,7 @@ const EventForm: React.FC<EventFormProps> = ({
             if (selectedMoods.includes(mood)) {
                 return { 
                     ...prev, 
-                    selectedMoods: selectedMoods.filter(m => m !== mood) 
+                    selectedMoods: selectedMoods.filter((m: string) => m !== mood) 
                 };
             } else {
                 if (selectedMoods.length >= 5) {
@@ -178,6 +195,42 @@ const EventForm: React.FC<EventFormProps> = ({
                 };
             }
         });
+    };
+
+    const toggleNotification = (option: string) => {
+        setFormData((prev: EventFormData) => {
+            const notifications = prev.notifications || [];
+            if (notifications.includes(option)) {
+                return {
+                    ...prev,
+                    notifications: notifications.filter((n: string) => n !== option)
+                };
+            } else {
+                return {
+                    ...prev,
+                    notifications: [...notifications, option]
+                };
+            }
+        });
+    };
+    
+    // Función para calcular si una opción de notificación debe estar disponible
+    const isNotificationOptionAvailable = (option: string): boolean => {
+        if (!formData.date) return false;
+        
+        const eventDate = new Date(formData.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const timeDiff = eventDate.getTime() - today.getTime();
+        const daysDiff = timeDiff / (1000 * 3600 * 24);
+        
+        if (option === 'En el momento') return true;
+        if (option === 'Una hora antes') return daysDiff >= 0;
+        if (option === 'Un día antes') return daysDiff >= 1;
+        if (option === 'Una semana antes') return daysDiff >= 7;
+        
+        return false;
     };
     
     return (
@@ -364,8 +417,53 @@ const EventForm: React.FC<EventFormProps> = ({
                 </div>
                 
                 <div className="notifications-container">
-                    <label>Notificaciones (Simulado):</label>
-                    <p className="notifications-helper">Selecciona fecha para ver opciones.</p>
+                    <label>Notificaciones:</label>
+                    {showNotificationOptions ? (
+                        <div className="notifications-options">
+                            {isNotificationOptionAvailable('En el momento') && (
+                                <label className="notification-option">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.notifications?.includes('En el momento')}
+                                        onChange={() => toggleNotification('En el momento')}
+                                    />
+                                    <span>En el momento</span>
+                                </label>
+                            )}
+                            {isNotificationOptionAvailable('Una hora antes') && (
+                                <label className="notification-option">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.notifications?.includes('Una hora antes')}
+                                        onChange={() => toggleNotification('Una hora antes')}
+                                    />
+                                    <span>Una hora antes</span>
+                                </label>
+                            )}
+                            {isNotificationOptionAvailable('Un día antes') && (
+                                <label className="notification-option">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.notifications?.includes('Un día antes')}
+                                        onChange={() => toggleNotification('Un día antes')}
+                                    />
+                                    <span>Un día antes</span>
+                                </label>
+                            )}
+                            {isNotificationOptionAvailable('Una semana antes') && (
+                                <label className="notification-option">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.notifications?.includes('Una semana antes')}
+                                        onChange={() => toggleNotification('Una semana antes')}
+                                    />
+                                    <span>Una semana antes</span>
+                                </label>
+                            )}
+                        </div>
+                    ) : (
+                        <p className="notifications-helper">Selecciona fecha para ver opciones.</p>
+                    )}
                 </div>
                 
                 <div className="form-actions">
@@ -385,7 +483,7 @@ const EventForm: React.FC<EventFormProps> = ({
                     </button>
                     <button
                         type="submit"
-                        className="btn-save"
+                        className="btn-save btn-save-green"
                     >
                         Guardar Evento
                     </button>

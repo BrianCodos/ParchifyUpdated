@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import type { Event, ViewType } from './types';
-import { Sidebar } from './components';
+import { Sidebar, Navbar } from './components';
 import { 
     EventsPage, 
     DashboardPage, 
@@ -40,8 +40,21 @@ const App: React.FC = () => {
         return DEFAULT_MOODS;
     });
     const [calendarDate, setCalendarDate] = useState<Date>(new Date());
-    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
+        return window.innerWidth < 768;
+    });
     const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setIsSidebarCollapsed(true);
+            }
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('events', JSON.stringify(events));
@@ -58,6 +71,10 @@ const App: React.FC = () => {
     useEffect(() => {
         localStorage.setItem('moods', JSON.stringify(moods));
     }, [moods]);
+
+    const toggleSidebar = () => {
+        setIsSidebarCollapsed(!isSidebarCollapsed);
+    };
 
     const addEventHandler = (newEvent: Event) => {
         if (editingEvent && !editingEvent.isDraft) {
@@ -214,14 +231,11 @@ const App: React.FC = () => {
                 <Sidebar
                     setCurrentView={setCurrentView}
                     currentView={currentView}
-                    isOpen={isSidebarOpen}
-                    onClose={() => setIsSidebarOpen(false)}
                     setEditingEvent={setEditingEvent}
                     onNewEvent={handleNewEvent}
                     counts={{
                         events: events.length,
                         calendar: events.filter(event => {
-                            // Filter events for current month
                             const eventDate = new Date(event.date);
                             return eventDate.getMonth() === calendarDate.getMonth() &&
                                    eventDate.getFullYear() === calendarDate.getFullYear();
@@ -231,13 +245,13 @@ const App: React.FC = () => {
                         moods: moods.length
                     }}
                 />
-                {isSidebarOpen && window.innerWidth < 768 && (
-                    <div
-                        className="sidebar-overlay"
-                        onClick={() => setIsSidebarOpen(false)}
-                    ></div>
-                )}
+                
                 <main className="main-content styled-scrollbar">
+                    <Navbar
+                        onToggleSidebar={toggleSidebar}
+                        onNewEvent={handleNewEvent}
+                    />
+                    
                     <div className="content-wrapper">
                         <div className="content-container">
                             {renderCurrentView()}
